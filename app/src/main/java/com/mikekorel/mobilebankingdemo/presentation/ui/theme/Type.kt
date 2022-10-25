@@ -1,4 +1,4 @@
-package com.mikekorel.mobilebankingdemo.ui.theme
+package com.mikekorel.mobilebankingdemo.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

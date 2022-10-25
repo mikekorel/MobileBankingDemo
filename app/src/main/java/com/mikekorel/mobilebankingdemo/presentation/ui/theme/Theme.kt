@@ -1,4 +1,4 @@
-package com.mikekorel.mobilebankingdemo.ui.theme
+package com.mikekorel.mobilebankingdemo.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

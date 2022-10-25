@@ -1,4 +1,4 @@
-package com.mikekorel.mobilebankingdemo
+package com.mikekorel.mobilebankingdemo.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mikekorel.mobilebankingdemo.ui.theme.MobileBankingDemoTheme
+import com.mikekorel.mobilebankingdemo.presentation.ui.theme.MobileBankingDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
