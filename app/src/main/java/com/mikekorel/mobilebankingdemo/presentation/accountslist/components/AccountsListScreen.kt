@@ -32,6 +32,7 @@ fun AccountsListScreen(
                 AccountsListItem(
                     account = account,
                     onItemClick = {
+                        viewModel.selectedAccount = it
                         navController.navigate(Screen.AccountDetailsScreen.route + "/${account.id}")
                     }
                 )

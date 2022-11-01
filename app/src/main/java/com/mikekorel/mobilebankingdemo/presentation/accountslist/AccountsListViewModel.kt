@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mikekorel.mobilebankingdemo.core.Resource
+import com.mikekorel.mobilebankingdemo.domain.model.AccountsListItem
 import com.mikekorel.mobilebankingdemo.domain.usecase.GetAccountsListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -18,6 +19,8 @@ class AccountsListViewModel @Inject constructor(
 
     private val _state = mutableStateOf(AccountsListState())
     val state: State<AccountsListState> = _state
+
+    var selectedAccount: AccountsListItem? = null
 
     init {
         getAccountsList()
