@@ -7,7 +7,6 @@ import com.mikekorel.mobilebankingdemo.data.remote.dto.TransactionHistoryBodyDto
 import com.mikekorel.mobilebankingdemo.data.remote.dto.toDomainModel
 import com.mikekorel.mobilebankingdemo.domain.model.Transaction
 import timber.log.Timber
-import javax.inject.Inject
 
 class TransactionHistorySource(
     private val accountId: String,

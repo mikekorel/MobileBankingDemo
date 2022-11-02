@@ -1,7 +1,5 @@
 package com.mikekorel.mobilebankingdemo.domain.model
 
-import com.google.gson.annotations.SerializedName
-
 data class Transaction(
     val id: String? = null,
     val date: String? = null,

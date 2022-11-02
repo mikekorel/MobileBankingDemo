@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -21,12 +22,14 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.mikekorel.mobilebankingdemo.R
+import com.mikekorel.mobilebankingdemo.core.DatePattern
 import com.mikekorel.mobilebankingdemo.core.capitalizeFirstChar
 import com.mikekorel.mobilebankingdemo.core.getDateString
 import com.mikekorel.mobilebankingdemo.domain.model.AccountsListItem
 import com.mikekorel.mobilebankingdemo.presentation.accountdetails.AccountDetailsViewModel
 import com.mikekorel.mobilebankingdemo.presentation.accountslist.components.AccountsListItem
 import com.mikekorel.mobilebankingdemo.presentation.components.BackButton
+import com.mikekorel.mobilebankingdemo.presentation.model.TransactionListItem
 import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CardColorLightGray
 import timber.log.Timber
 
@@ -37,7 +40,7 @@ fun AccountDetailsScreen(
     viewModel: AccountDetailsViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
-    val transactionItems = viewModel.transactions?.collectAsLazyPagingItems()
+    val transactionListItems = viewModel.transactionListItems?.collectAsLazyPagingItems()
 
     Column(modifier = Modifier.fillMaxSize()) {
         BackButton(
@@ -79,17 +82,17 @@ fun AccountDetailsScreen(
                     labelText = "Product name: ",
                     valueText = state.accountDetails.productName
                 )
-                state.accountDetails.openedDate?.let { timestamp ->
-                    AccountDetailsItem(
-                        labelText = "Opened date: ",
-                        valueText = try {
-                            getDateString(timestamp)
-                        } catch (t: Throwable) {
-                            Timber.e(t, "Error parsing timestamp!")
-                            ""
-                        }
-                    )
-                }
+                AccountDetailsItem(
+                    labelText = "Opened date: ",
+                    valueText = try {
+                        state.accountDetails.openedDate?.let { timestamp ->
+                            getDateString(timestamp, DatePattern.DAY_MONTH_YEAR)
+                        } ?: ""
+                    } catch (t: Throwable) {
+                        Timber.e(t, "Error parsing timestamp!")
+                        ""
+                    }
+                )
                 AccountDetailsItem(
                     labelText = "Branch: ",
                     valueText = state.accountDetails.branch
@@ -106,22 +109,33 @@ fun AccountDetailsScreen(
             }
         }
 
-        transactionItems?.let { items ->
+        transactionListItems?.let { items ->
             LazyColumn(modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
             ) {
                 items(items) { item ->
-                    item?.let { transaction ->
-                        TransactionItem(
-                            transaction = transaction,
-                            currencyCode = accountItem?.currencyCode ?: ""
-                        )
+                    item?.let { transactionListItem ->
+                        if (transactionListItem is TransactionListItem.TransactionUIModel) {
+                            TransactionItem(
+                                transaction = transactionListItem,
+                                currencyCode = accountItem?.currencyCode ?: ""
+                            )
+                        } else {
+                            // separator
+                            Text(
+                                text = (transactionListItem as? TransactionListItem.TransactionSeparator)?.date ?: "",
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 16.dp, bottom = 6.dp)
+                            )
+                        }
                     }
                 }
             }
         }
-        transactionItems?.apply {
+        transactionListItems?.apply {
             if (loadState.prepend is LoadState.Error || loadState.append is LoadState.Error ||
                 loadState.refresh is LoadState.Error
             ) {

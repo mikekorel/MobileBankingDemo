@@ -2,7 +2,10 @@ package com.mikekorel.mobilebankingdemo.presentation.accountdetails.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mikekorel.mobilebankingdemo.core.capitalizeFirstChar
-import com.mikekorel.mobilebankingdemo.domain.model.Transaction
+import com.mikekorel.mobilebankingdemo.presentation.model.TransactionListItem.TransactionUIModel
 import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CardColorLightGray
 import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CreditTransactionGreen
 
@@ -23,12 +26,12 @@ import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CreditTransactionGr
 @Composable
 fun TransactionItemPreview() {
     TransactionItem(
-        transaction = Transaction(
+        transaction = TransactionUIModel(
             id = "d1e904fa-8ae6-49ee-ab5a-f4e7947a74ab",
             date = "2016-06-05T10:15:30Z",
             transactionAmount = "32.00",
             transactionType = "transfer own",
-            description = "transfer between my accountstransfer between my accountstransfer between my accountstransfer between my accounts",
+            description = "transfer between my accounts",
             isDebit = true
         ),
         "EUR"
@@ -37,7 +40,7 @@ fun TransactionItemPreview() {
 
 @Composable
 fun TransactionItem(
-    transaction: Transaction,
+    transaction: TransactionUIModel,
     currencyCode: String,
     modifier: Modifier = Modifier,
 ) {
