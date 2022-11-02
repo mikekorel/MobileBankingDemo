@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = Screen.AccountDetailsScreen.route + "/{${Constants.PARAM_ACCOUNT_ID}}"
                     ) {
-                        AccountDetailsScreen(viewModel.selectedAccount)
+                        AccountDetailsScreen(viewModel.selectedAccount, navController)
                     }
                 }
             }

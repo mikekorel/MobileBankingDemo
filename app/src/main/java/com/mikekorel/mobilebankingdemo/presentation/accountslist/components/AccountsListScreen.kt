@@ -27,7 +27,11 @@ fun AccountsListScreen(
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 16.dp)
+        ) {
             items(state.accounts) { account ->
                 AccountsListItem(
                     account = account,
