@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -30,7 +29,7 @@ import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CardColorLightGray
 
 @Composable
 fun AccountDetailsScreen(
-    item: AccountsListItem? = null,
+    accountItem: AccountsListItem? = null,
     navController: NavController,
     viewModel: AccountDetailsViewModel = hiltViewModel(),
 ) {
@@ -47,7 +46,7 @@ fun AccountDetailsScreen(
                 }
         )
         Spacer(modifier = Modifier.height(6.dp))
-        item?.let { account ->
+        accountItem?.let { account ->
             AccountsListItem(
                 account = account,
                 onItemClick = {},
@@ -67,7 +66,7 @@ fun AccountDetailsScreen(
             {
 
                 Spacer(modifier = Modifier.height(4.dp))
-                item?.accountType?.let { type ->
+                accountItem?.accountType?.let { type ->
                     AccountDetailsItem(labelText = "Type: ", valueText = type)
                 }
                 AccountDetailsItem(labelText = "Product name: ", valueText = state.accountDetails.productName)
@@ -85,12 +84,14 @@ fun AccountDetailsScreen(
         transactionItems?.let { items ->
             LazyColumn(modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray)
+                .padding(horizontal = 12.dp)
             ) {
                 items(items) { item ->
                     item?.let { transaction ->
-                        Text(text = "ID = ${transaction.id}")
-                        Spacer(modifier = Modifier.height(4.dp))
+                        TransactionItem(
+                            transaction = transaction,
+                            currencyCode = accountItem?.currencyCode ?: ""
+                        )
                     }
                 }
             }
