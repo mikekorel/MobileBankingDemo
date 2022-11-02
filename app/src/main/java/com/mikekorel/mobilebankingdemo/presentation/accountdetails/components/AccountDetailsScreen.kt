@@ -10,6 +10,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -133,13 +134,37 @@ fun AccountDetailsScreen(
                         }
                     }
                 }
-            }
-        }
-        transactionListItems?.apply {
-            if (loadState.prepend is LoadState.Error || loadState.append is LoadState.Error ||
-                loadState.refresh is LoadState.Error
-            ) {
-                Text(text = stringResource(R.string.transactions_error_msg), color = Color.Red)
+
+                transactionListItems.apply {
+                    if (loadState.prepend is LoadState.Error || loadState.append is LoadState.Error ||
+                        loadState.refresh is LoadState.Error
+                    ) {
+                        item {
+                            Text(
+                                text = stringResource(R.string.transactions_error_msg),
+                                color = Color.Red,
+                                modifier = Modifier
+                                    .padding(12.dp)
+                            )
+                        }
+                    }
+                    if (loadState.prepend is LoadState.Loading || loadState.append is LoadState.Loading ||
+                        loadState.refresh is LoadState.Loading
+                    ) {
+                        item {
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .align(Center)
+                                        .padding(vertical = 16.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }
