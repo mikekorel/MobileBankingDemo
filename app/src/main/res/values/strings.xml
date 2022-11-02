@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MobileBankingDemo</string>
     <string name="account">Account</string>
+    <string name="transactions_error_msg">Can\'t load transactions, an unexpected error occurred.</string>
 </resources>
