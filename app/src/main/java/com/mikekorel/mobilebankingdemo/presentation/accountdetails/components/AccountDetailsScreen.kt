@@ -21,11 +21,14 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.mikekorel.mobilebankingdemo.R
+import com.mikekorel.mobilebankingdemo.core.capitalizeFirstChar
+import com.mikekorel.mobilebankingdemo.core.getDateString
 import com.mikekorel.mobilebankingdemo.domain.model.AccountsListItem
 import com.mikekorel.mobilebankingdemo.presentation.accountdetails.AccountDetailsViewModel
 import com.mikekorel.mobilebankingdemo.presentation.accountslist.components.AccountsListItem
 import com.mikekorel.mobilebankingdemo.presentation.components.BackButton
 import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CardColorLightGray
+import timber.log.Timber
 
 @Composable
 fun AccountDetailsScreen(
@@ -67,12 +70,34 @@ fun AccountDetailsScreen(
 
                 Spacer(modifier = Modifier.height(4.dp))
                 accountItem?.accountType?.let { type ->
-                    AccountDetailsItem(labelText = "Type: ", valueText = type)
+                    AccountDetailsItem(
+                        labelText = "Type: ",
+                        valueText = type.capitalizeFirstChar()
+                    )
                 }
-                AccountDetailsItem(labelText = "Product name: ", valueText = state.accountDetails.productName)
-                AccountDetailsItem(labelText = "Opened date: ", valueText = state.accountDetails.openedDate)
-                AccountDetailsItem(labelText = "Branch: ", valueText = state.accountDetails.branch)
-                AccountDetailsItem(labelText = "Beneficiaries: ", valueText = state.accountDetails.beneficiaries?.toString())
+                AccountDetailsItem(
+                    labelText = "Product name: ",
+                    valueText = state.accountDetails.productName
+                )
+                state.accountDetails.openedDate?.let { timestamp ->
+                    AccountDetailsItem(
+                        labelText = "Opened date: ",
+                        valueText = try {
+                            getDateString(timestamp)
+                        } catch (t: Throwable) {
+                            Timber.e(t, "Error parsing timestamp!")
+                            ""
+                        }
+                    )
+                }
+                AccountDetailsItem(
+                    labelText = "Branch: ",
+                    valueText = state.accountDetails.branch
+                )
+                AccountDetailsItem(
+                    labelText = "Beneficiaries: ",
+                    valueText = state.accountDetails.beneficiaries?.joinToString()
+                )
 
             }
 

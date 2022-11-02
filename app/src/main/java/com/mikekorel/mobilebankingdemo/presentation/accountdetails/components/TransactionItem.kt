@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.mikekorel.mobilebankingdemo.core.capitalizeFirstChar
 import com.mikekorel.mobilebankingdemo.domain.model.Transaction
 import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CardColorLightGray
+import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CreditTransactionGreen
 
 @Preview
 @Composable
@@ -59,7 +60,7 @@ fun TransactionItem(
         Text(
             text = transaction.transactionAmount?.plus(" $currencyCode") ?: "",
             fontWeight = FontWeight.Bold,
-            color = if (transaction.isDebit == true) Color.Red else Color.Green,
+            color = if (transaction.isDebit == true) Color.Red else CreditTransactionGreen,
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)

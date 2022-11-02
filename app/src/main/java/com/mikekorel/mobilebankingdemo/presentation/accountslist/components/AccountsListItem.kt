@@ -65,6 +65,13 @@ fun AccountsListItem (
                 .align(Alignment.TopStart)
                 .padding(12.dp)
         )
+        Text(
+            text = account.accountType ?: "",
+            fontSize = 12.sp,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(12.dp)
+        )
         account.balance?.let { balance ->
             Text(
                 text = balance.plus((" ${account.currencyCode ?: ""}")),

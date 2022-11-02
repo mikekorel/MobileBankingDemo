@@ -11,3 +11,4 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val CardColorLightGray = Color(0xFFE9E9E9)
+val CreditTransactionGreen = Color(0xFF3ACE3E)
