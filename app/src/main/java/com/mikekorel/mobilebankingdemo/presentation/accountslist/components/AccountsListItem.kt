@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mikekorel.mobilebankingdemo.R
 import com.mikekorel.mobilebankingdemo.domain.model.AccountsListItem
+import com.mikekorel.mobilebankingdemo.presentation.components.FavoriteButton
 import com.mikekorel.mobilebankingdemo.presentation.ui.theme.CardColorLightGray
 
 @Preview
@@ -39,7 +40,8 @@ fun AccountsListItemPreview() {
                 accountType = "current",
                 accountNickname = "My Salary"
             ),
-            onItemClick = {}
+            onItemClick = {},
+            onFavoriteClick = {}
         )
     }
 }
@@ -48,7 +50,9 @@ fun AccountsListItemPreview() {
 fun AccountsListItem (
     account: AccountsListItem,
     onItemClick: (AccountsListItem) -> Unit,
-    modifier: Modifier = Modifier
+    onFavoriteClick: ((AccountsListItem) -> Unit)?,
+    modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
 ) {
     Box(
         modifier = modifier
@@ -80,6 +84,17 @@ fun AccountsListItem (
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(vertical = 42.dp)
+            )
+        }
+        onFavoriteClick?.let { callback ->
+            FavoriteButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(12.dp)
+                    .clickable {
+                        callback(account)
+                    },
+                tint = if (isFavorite) Color.Black else Color.LightGray
             )
         }
 

@@ -48,4 +48,12 @@ class AccountsListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun markAsFavorite(account: AccountsListItem) {
+        _state.value = _state.value.copy(favoriteAccount = account)
+    }
+
+    fun clearFavorite() {
+        _state.value = _state.value.copy(favoriteAccount = null)
+    }
+
 }

@@ -22,7 +22,7 @@ import com.mikekorel.mobilebankingdemo.presentation.accountslist.AccountsListVie
 @Composable
 fun AccountsListScreen(
     navController: NavController,
-    viewModel: AccountsListViewModel = hiltViewModel()
+    viewModel: AccountsListViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
 
@@ -32,12 +32,34 @@ fun AccountsListScreen(
                 .fillMaxSize()
                 .padding(vertical = 16.dp)
         ) {
-            items(state.accounts) { account ->
+            if (state.favoriteAccount != null) {
+                item {
+                    with(state.favoriteAccount) {
+                        AccountsListItem(
+                            account = this,
+                            onItemClick = {
+                                viewModel.selectedAccount = it
+                                navController.navigate(Screen.AccountDetailsScreen.route + "/${this.id}")
+                            },
+                            onFavoriteClick = {
+                                viewModel.clearFavorite()
+                            },
+                            isFavorite = true
+                        )
+                    }
+                }
+            }
+            items(state.accounts.filterNot {
+                it.id == state.favoriteAccount?.id && state.favoriteAccount?.id != null
+            }) { account ->
                 AccountsListItem(
                     account = account,
                     onItemClick = {
                         viewModel.selectedAccount = it
                         navController.navigate(Screen.AccountDetailsScreen.route + "/${account.id}")
+                    },
+                    onFavoriteClick = {
+                        viewModel.markAsFavorite(it)
                     }
                 )
             }
